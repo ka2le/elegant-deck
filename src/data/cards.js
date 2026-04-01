@@ -1,0 +1,58 @@
+export const initialCards = [
+  {
+    id: 'c1',
+    number: '01',
+    title: 'Velvet Oath',
+    effect: 'Draw calm from the dusk. Gain 2 poise and prepare your next flourish.',
+    icons: ['✦', '◈'],
+  },
+  {
+    id: 'c2',
+    number: '02',
+    title: 'Silver Thread',
+    effect: 'Link this moment to the next. Shift one card and refine your hand.',
+    icons: ['❖', '✧'],
+  },
+  {
+    id: 'c3',
+    number: '03',
+    title: 'Gilded Breath',
+    effect: 'A quiet inhale before impact. Increase grace and soften incoming loss.',
+    icons: ['✺', '◌'],
+  },
+  {
+    id: 'c4',
+    number: '04',
+    title: 'Midnight Seal',
+    effect: 'Close one path and sanctify another. Lock a choice until your next turn.',
+    icons: ['⬡', '✦'],
+  },
+  {
+    id: 'c5',
+    number: '05',
+    title: 'Ivory Bloom',
+    effect: 'Open into motion. Reveal a fresh line and let one hidden edge unfold.',
+    icons: ['✿', '◈'],
+  },
+  {
+    id: 'c6',
+    number: '06',
+    title: 'Quiet Ember',
+    effect: 'Store a spark beneath the ash. Your next effect resonates twice as far.',
+    icons: ['✹', '◇'],
+  },
+  {
+    id: 'c7',
+    number: '07',
+    title: 'Porcelain Echo',
+    effect: 'Repeat the contour of a played idea. Copy a minor effect with elegance.',
+    icons: ['◎', '✧'],
+  },
+  {
+    id: 'c8',
+    number: '08',
+    title: 'Royal Veil',
+    effect: 'Step between intentions. Slip past one restriction and reposition freely.',
+    icons: ['♢', '✦'],
+  },
+];

@@ -1,0 +1,344 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.app-shell {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: clamp(16px, 4vw, 32px);
+  color: #f8f3e8;
+}
+
+.app-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.app-bg-a {
+  background:
+    radial-gradient(circle at top, rgba(245, 215, 157, 0.18), transparent 32%),
+    radial-gradient(circle at 20% 20%, rgba(193, 167, 109, 0.18), transparent 20%),
+    linear-gradient(145deg, #120f14 0%, #1d1820 38%, #2b2020 100%);
+}
+
+.app-bg-b {
+  background:
+    linear-gradient(120deg, rgba(255, 255, 255, 0.06), transparent 32%),
+    radial-gradient(circle at bottom right, rgba(188, 139, 71, 0.18), transparent 26%);
+  mix-blend-mode: screen;
+}
+
+.topbar,
+.deck-stage,
+.bottom-copy {
+  position: relative;
+  z-index: 1;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 16px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  color: rgba(248, 243, 232, 0.72);
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.04em;
+  font-weight: 600;
+}
+
+.topbar-copy {
+  max-width: 360px;
+  margin: 0;
+  color: rgba(248, 243, 232, 0.72);
+  line-height: 1.5;
+  text-align: right;
+}
+
+.deck-stage {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+}
+
+.deck-frame {
+  position: relative;
+  width: min(100%, 1200px);
+  height: min(72svh, 720px);
+  border-radius: 32px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.015));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 30px 120px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  overflow: hidden;
+}
+
+.deck-highlight {
+  position: absolute;
+  inset: 10% 8%;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at center, rgba(214, 176, 110, 0.18), transparent 44%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), transparent 50%);
+  filter: blur(2px);
+}
+
+.deck-rail {
+  position: relative;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: clamp(12px, 2vw, 24px);
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: clamp(20px, 6vw, 72px) 22vw;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  touch-action: pan-x;
+}
+
+.deck-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.deck-card {
+  position: relative;
+  flex: 0 0 clamp(220px, 34vw, 340px);
+  height: clamp(340px, 62vh, 520px);
+  scroll-snap-align: center;
+  border-radius: 28px;
+  padding: 20px;
+  overflow: hidden;
+  user-select: none;
+  transform:
+    translate3d(var(--drag-x), var(--drag-y), 0)
+    scale(0.92);
+  transform-origin: center;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    opacity 180ms ease,
+    filter 180ms ease;
+  margin-inline: clamp(-32px, -4vw, -18px);
+  border: 1px solid rgba(255, 247, 232, 0.28);
+  background:
+    linear-gradient(165deg, rgba(92, 72, 48, 0.88), rgba(27, 23, 26, 0.98) 36%, rgba(16, 14, 18, 0.98) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.06), transparent 48%);
+  box-shadow:
+    0 22px 56px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16),
+    inset 0 0 0 1px rgba(255, 219, 154, 0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.deck-card::after {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 228, 179, 0.22);
+  pointer-events: none;
+}
+
+.deck-card.is-active {
+  transform: translate3d(var(--drag-x), var(--drag-y), 0) scale(1);
+  box-shadow:
+    0 28px 76px rgba(0, 0, 0, 0.48),
+    0 0 0 1px rgba(255, 219, 154, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+
+.deck-card.is-dragged {
+  cursor: grabbing;
+  opacity: 0.98;
+  filter: brightness(1.06);
+  transition: none;
+}
+
+.card-sheen {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(140deg, rgba(255, 255, 255, 0.18), transparent 28%),
+    radial-gradient(circle at 100% 0%, rgba(233, 197, 139, 0.2), transparent 36%);
+  pointer-events: none;
+}
+
+.card-number,
+.card-icons,
+.card-footer {
+  position: relative;
+  z-index: 1;
+}
+
+.card-number {
+  font-size: 0.96rem;
+  letter-spacing: 0.18em;
+  color: #f3d8a0;
+}
+
+.card-icons {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  display: flex;
+  gap: 8px;
+  color: rgba(255, 235, 197, 0.8);
+}
+
+.card-body {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  text-align: center;
+  flex: 1;
+  padding: 24px 10px;
+}
+
+.card-body h2 {
+  margin: 0;
+  font-size: clamp(1.7rem, 3vw, 2.5rem);
+  line-height: 0.98;
+  font-weight: 500;
+  color: #fff7ea;
+}
+
+.card-body p {
+  margin: 0;
+  max-width: 18ch;
+  color: rgba(255, 240, 219, 0.8);
+  line-height: 1.45;
+  font-size: 0.98rem;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: rgba(255, 232, 194, 0.5);
+}
+
+.bottom-copy {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 18px;
+  color: rgba(248, 243, 232, 0.85);
+}
+
+.bottom-copy > div {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.stat-label {
+  font-size: 0.76rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(248, 243, 232, 0.52);
+}
+
+@media (max-width: 900px) {
+  .topbar {
+    flex-direction: column;
+  }
+
+  .topbar-copy {
+    text-align: left;
+    max-width: 100%;
+  }
+
+  .deck-frame {
+    height: min(68svh, 640px);
+  }
+
+  .deck-rail {
+    padding-inline: 18vw;
+  }
+}
+
+@media (max-width: 640px) {
+  .app-shell {
+    padding: 12px;
+  }
+
+  .deck-frame {
+    height: min(70svh, 600px);
+    border-radius: 24px;
+  }
+
+  .deck-rail {
+    padding: 18px 12vw;
+    gap: 12px;
+  }
+
+  .deck-card {
+    flex-basis: min(72vw, 300px);
+    height: min(62svh, 500px);
+    margin-inline: -24px;
+    border-radius: 24px;
+  }
+
+  .card-body h2 {
+    font-size: 1.8rem;
+  }
+
+  .card-body p {
+    font-size: 0.92rem;
+  }
+
+  .bottom-copy {
+    font-size: 0.92rem;
+  }
+}
+
+@media (orientation: portrait) {
+  .deck-frame {
+    height: min(74svh, 760px);
+  }
+
+  .deck-card {
+    flex-basis: min(76vw, 340px);
+    height: min(60svh, 520px);
+  }
+}
